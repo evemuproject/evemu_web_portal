@@ -1,0 +1,269 @@
+<?PHP
+$result="";
+if($member_db[1] != 1){ msg("error", "Access Denied", "You don't have permission to edit categories"); }
+
+// ********************************************************************************
+// Add Category
+// ********************************************************************************
+if($action == "add")
+{
+    $cat_name = htmlspecialchars(stripslashes($cat_name));
+    if(!$cat_name){ msg("error","Error !!!","Please enter name of the category", "javascript:history.go(-1)"); }
+    $cat_icon = preg_replace("/ /", "", $cat_icon);
+    if($cat_icon == "(optional)"){ $cat_icon = ""; }
+
+    $big_num = file("./data/cat.num.php");
+    $big_num = $big_num[0];
+    if(!$big_num or $big_num == ""){ $big_num = 1; }
+
+    $all_cats = file("./data/category.db.php");
+    foreach($all_cats as $cat_line)
+    {
+                $cat_arr = explode("|", $cat_line);
+        if($cat_arr[1] == $cat_name){ msg("error", "Error !!!", "Category with this name already exist", "?mod=categories"); }
+        if($cat_arr[0] == $big_num){ $big_num = 33; }
+    }
+    $new_cats = fopen("./data/category.db.php", "a");
+    $cat_name = stripslashes( preg_replace(array("'\|'",), array("&#124",), $cat_name) );
+    $cat_icon = stripslashes( preg_replace(array("'\|'",), array("&#124",), $cat_icon) );
+        fwrite($new_cats, "$big_num|$cat_name|$cat_icon|$cat_access|||\n");
+        fclose($new_cats);
+    $big_num ++;
+
+    $num_file = fopen("./data/cat.num.php", "w");
+    fwrite($num_file, $big_num);
+    fclose($num_file);
+}
+// ********************************************************************************
+// Remove Category
+// ********************************************************************************
+elseif($action == "remove")
+{
+        if(!$catid){ msg("error","Error !!!","No category ID", "$PHP_SELF?mod=categories"); }
+
+    $old_cats = file("./data/category.db.php");
+    $new_cats = fopen("./data/category.db.php", "w");
+
+    foreach($old_cats as $old_cats_line){
+            $cat_arr = explode("|", $old_cats_line);
+            if($cat_arr[0] != $catid){
+                        fwrite($new_cats, $old_cats_line);
+        }
+    }
+        fclose($new_cats);
+}
+// ********************************************************************************
+// Edit Category
+// ********************************************************************************
+elseif($action == "edit")
+{
+        if(!$catid){ msg("error","Error !!!","No category ID", "$PHP_SELF?mod=categories"); }
+
+    $all_cats = file("./data/category.db.php");
+    foreach($all_cats as $cat_line){
+            $cat_arr = explode("|", $cat_line);
+            if($cat_arr[0] == $catid){
+
+            $if_all_access = ($cat_arr[3] == "" || $cat_arr[3] == "0") ? "selected" :  "";
+
+            $if_1_access = ($cat_arr[3] == "1") ? "selected" :  "";
+            $if_2_access = ($cat_arr[3] == "2") ? "selected" :  "";
+
+
+$msg=<<<HTML
+        <form action=$PHP_SELF?mod=categories method=post>
+  <table border="0" >
+    <tr>
+      <td width="100" >Name</td>
+      <td  ><input value="$cat_arr[1]" type=text name=cat_name></td>
+    </tr>
+    <tr>
+      <td  >Icon</td>
+      <td  ><input value="$cat_arr[2]" type=text name=cat_icon></td>
+    </tr>
+
+
+    <tr>
+        <td >
+    Category Access
+        <td >
+
+        <select name="cat_access">
+         <option $if_all_access value="0" selected>Everyone Can Write</option>
+         <option $if_2_access value="2">Only Editors and Admin</option>
+         <option $if_1_access value="1">Only Admin</option>
+
+        </select>
+
+    </tr>
+
+
+    <tr>
+      <td></td>
+      <td ><br><input type=submit value="Save Changes"</td>
+    </tr>
+  </table>
+  <input type=hidden name=action value=doedit>
+  <input type=hidden name=catid value=$catid>
+  </form>
+HTML;
+
+        msg("options", "Edit Category", $msg);
+
+        }
+    }
+}
+// ********************************************************************************
+// DO Edit Category
+// ********************************************************************************
+elseif($action == "doedit")
+{
+    $cat_name = htmlspecialchars(stripslashes($cat_name));
+    if(!$catid){ msg("error","Error !!!","No category ID", "$PHP_SELF?mod=categories"); }
+    if($cat_name == ""){ msg("error", "Error !!!", "Category name can not be blank", "javascript:history.go(-1)"); }
+
+    $old_cats = file("./data/category.db.php");
+    $new_cats = fopen("./data/category.db.php", "w");
+    foreach($old_cats as $cat_line){
+            $cat_arr = explode("|", $cat_line);
+            if($cat_arr[0] == $catid){
+                        fwrite($new_cats, "$catid|$cat_name|$cat_icon|$cat_access|||\n");
+        }else{
+                        fwrite($new_cats, "$cat_line");
+        }
+    }
+    fclose($new_cats);
+}
+// ********************************************************************************
+// List all Categories
+// ********************************************************************************
+echoheader("options", "Categories");
+echo<<<HTML
+
+        <table border=0 cellpading=0 cellspacing=0 width="645" >
+    <form method=post action="$PHP_SELF">
+    <td width=321 height="33">
+    <b>Add Category</b>
+<table border=0 cellpading=0 cellspacing=0 width=300  class="panel" >
+    <tr>
+    <td width=130 height="25">
+    &nbsp;Name
+        <td  height="25">
+    <input type=text name=cat_name>
+    </tr>
+    <tr>
+        <td height="22">
+    &nbsp;Icon URL
+        <td height="22">
+        <input onFocus="this.select()" value="(optional)" type=text name=cat_icon>
+    </tr>
+
+
+    <tr>
+        <td height="22">
+    &nbsp;Category Access
+        <td height="22">
+
+        <select name="cat_access">
+         <option value="0" selected>Everyone Can Write</option>
+         <option value="2">Only Editors and Admin</option>
+         <option value="1">Only Admin</option>
+
+        </select>
+
+    </tr>
+
+
+    <tr>
+        <td width=98 height="32">
+    &nbsp;
+        <td width=206 height="32">
+    <input type=submit value="  Add Category  ">
+<input type=hidden name=mod value=categories>
+<input type=hidden name=action value=add>
+    </tr>
+    </form>
+    </table>
+
+
+        <td width=320 height="33" align="center">
+       <!-- HELP -->
+   <table height="25" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="25" align=middle><img border="0" src="skins/images/help_small.gif"></td>
+      <td >&nbsp;<a onClick="javascript:Help('categories')" href="#">What are categories and<br>
+        &nbsp;How to use them</a></td>
+    </tr>
+  </table><br>
+     <!-- END HELP -->
+
+    <tr>
+        <td width=654 colspan="2" height="11">
+        <img height=20 border=0 src="skins/images/blank.gif" width=1>
+    </tr>
+HTML;
+
+
+$all_cats = file("./data/category.db.php");
+$count_categories = 0;
+foreach($all_cats as $cat_line)
+{
+    if($i%2 != 0){ $bg = "bgcolor=#F7F6F4"; }else{ $bg = ""; }
+    $i++;
+    $cat_arr = explode("|", $cat_line);
+    $cat_arr[1] = stripslashes( preg_replace(array("'\"'", "'\''"), array("&quot;", "&#039;"), $cat_arr[1]) );
+    $cat_help_names[] = $cat_arr[1];
+    $cat_help_ids[] = $cat_arr[0];
+    $result .= "
+
+    <tr>
+      <td $bg >&nbsp;<b>$cat_arr[0]</b></td>
+      <td $bg >$cat_arr[1]</td>
+      <td $bg >";
+      if($cat_arr[2] != ""){ $result .= "<img border=0 src=\"$cat_arr[2]\" high=40 width=40 alt=\"$cat_arr[2]\">"; }
+      else{ $result .= "---"; }
+      $result .= "</td><td $bg >";
+
+            $result .= ($cat_arr[3] == "" || $cat_arr[3] == "0") ? "<span title='Everyone can Write'>---</span>" :  "";
+            $result .= ($cat_arr[3] == "1") ? "Only Admin" :  "";
+            $result .= ($cat_arr[3] == "2") ? "Only Editors & Admin" :  "";
+
+
+      $result .= "</td>
+      <td $bg ><a href=\"$PHP_SELF?mod=categories&action=edit&catid=$cat_arr[0]\">[edit]</a> <a href=\"$PHP_SELF?mod=categories&action=remove&catid=$cat_arr[0]\">[delete]</a></td>
+    </tr>";
+        $count_categories ++;
+}
+
+if($count_categories == 0){
+    echo"<tr>
+        <td width=654 colspan=2 height=14>
+    <p align=center><br><b>You havn't defined any categories yet</b><br>
+       categories are optional and you can write your news without having categories<br>
+    </tr>
+    <tr>";
+}else{
+        echo"<tr>
+        <td width=654 colspan=2 height=14>
+    <b>Categories</b>
+    </tr>
+    <tr>
+        <td width=654 colspan=2 height=1>
+  <table width=100% height=100% cellspacing=0 cellpadding=0>
+    <tr>
+      <td width=6% bgcolor=#F7F6F4>&nbsp;<u>ID</u></td>
+      <td width=30% bgcolor=#F7F6F4><u>name</u></td>
+      <td width=14% bgcolor=#F7F6F4><u>icon</u></td>
+      <td width=20% bgcolor=#F7F6F4><u>restriction</u></td>
+      <td width=20% bgcolor=#F7F6F4><u>action</u></td>
+    </tr>";
+
+    echo $result;
+
+    echo"</table>";
+}
+
+echo"
+</table>";
+echofooter();
+?>

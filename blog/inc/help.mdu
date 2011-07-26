@@ -1,0 +1,248 @@
+<?PHP
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Our Help Sections
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+$help_sections = array();
+
+//----------------------------------
+// Including the News
+//----------------------------------
+$help_sections["including"] = <<<HTML
+<h1>Including The News</h1>
+After CuteNews is successfully installed you can start posting your news. To display the news you must include the
+file <b>show_news.php</b> (located in the main cutenews folder). To include show_news.php on your page you must use a code like this:
+<div class="code">&lt;?PHP<br>
+include("path/to/show_news.php");<br>
+?&gt;</div>
+And you must replace <i>path/to/show_news.php</i> with the real path to show_news.php, <b>NOT</b> the URL !!!<br>
+Examples:<br>
+<font color=green>CORRECT</font>: include("cutenews/show_news.php");<br>
+<font color=red>WRONG&nbsp;&nbsp;&nbsp;</font>: include("http://site.com/cutenews/show_news.php");<br>
+<br>
+Remember that to be able to use the php code, the extension of the file where you include it must be .php<br>
+If you want to include the code in .html page, you can rename he .html to .php and everything will work normal
+HTML;
+
+//----------------------------------
+// All possible variables while including
+//----------------------------------
+$help_sections["variables"] = <<<HTML
+<h1>All Variables You are Allowed to Use</h1>
+Here is a list of all possible variables that you are allowed to use when including news or archives:<BR>
+<div class="code" style='font-family: Verdana, Arial, Helvetica, sans-serif;'>&lt;?PHP<br><br>
+<b>\$number = "&lt;X&gt;";</b>&nbsp;&nbsp;<i>// show only the X newest articles.</i><br>
+<b>\$template = "&lt;NAME&gt;";</b>&nbsp;&nbsp;<i>// load another template, if you don't use it the default template will be loaded.</i><br>
+<b>\$static = TRUE;</b>&nbsp;&nbsp;<i>// included news will not load on this location, for more info see 'Using Multiple Includes'.</i><br>
+<b>\$category = "&lt;ID&gt;";</b>&nbsp;&nbsp;<i>// show only news from the selected category where &lt;ID&gt; is the id of category.</i><br>
+<b>\$start_from = "&lt;NUMBER&gt;";</b>&nbsp;&nbsp;<i>// show the news starting not from the first newest but from &lt;NUMBER&gt;, it is required to use \$start_from = "&lt;NUMBER&gt;";
+only when you use \$number = "X";.</i><br>
+
+<br>include("path/to/show_news.php");<br>
+?&gt;</div>
+All of the above variables are optional and you may wish don't to use them.
+HTML;
+
+//----------------------------------
+// Using Multiple Includes
+//----------------------------------
+$help_sections["multiple_includes"] = <<<HTML
+<h1>Using Multiple Includes on One Page</h1>
+Now will examine the situation when you want to use more than one include on a single page. For example if you want to show 5 headlines (using template headlines)
+and below them to be shown all other news. The problem in this situatuion situation is that when you click on a headline CuteNews won't understand where to show the result,
+on the headlines part or where all other news are included. The solution is to use the variable <b>$static = TRUE;</b> before including the headlines. When you use
+this variable CuteNews won't display any result on the place where you use $static.<br>
+Here is the correct code of the above example with the headlines and news:
+<div class="code">&lt;?PHP<br>
+<u>Our Latest 5 Headlines</u>:<br>
+\$static = TRUE;<br>
+\$number = "5";<br>
+\$template = "Headlines";<br>
+include("path/to/show_news.php");<br>
+<br>
+<u>The News</u><br>
+include("path/to/show_news.php");<br>
+?&gt;</div>
+Now When you click on a headline it will be displayed on the place of the other news and the
+list with the latest 5 headlines will still be showed.<br><br>
+Make some test with <b>\$static = TRUE;</b> yourself to understand how it works exactly and how powerful
+it can be.
+
+HTML;
+
+//----------------------------------
+// Users Section
+//----------------------------------
+$help_sections["users"] = <<<HTML
+<h1>Understanding User Levels</h1>
+For better security and control of your users there four types of user-levels implemented in CuteNews.
+Each user-level has limited permissions in doing specified actions and these permissions can not be changed.<br>
+The user-levels are as fallows:<br>
+<ol>
+<li><b>Administrators</b> - administrators are allowed to do anything they want: edit others posts, comments, ban users, edit system configurations
+        and everything else ... so be careful when adding users as administrators !!!</li>
+<br>
+<li><b>Editors</b> - the users from this level are allowed to post news, they can edit own posts and the news posted from all other users. They can also approve news which are added by the 'Journalists'</li>
+<br>
+<li><b>Journalists</b> - this level is for users who only need to post and edit news. They can edit only own posts !. When journalist add's new article it will not be active and instead will be marked as 'Unapproved', In order for this article to become visible admin or editor must approve it.</li>
+<br>
+<li><b>Commenters</b> - when users from this level login, they are allowed only to change their passwords. Can not post, edit news or perform any other action.
+        This is useful when some user wants his username to be password protected when posting comments and no one else to be able to post with his username. You can also deny unregistered users to be able to post comments.</li>
+</ol>
+HTML;
+
+//----------------------------------
+// Categories Section
+//----------------------------------
+$help_sections["categories"] = <<<HTML
+<h1>What are Categories and How To Use Them</h1>
+When adding new category, it will appear in the "Add News" section. Therefore when you post your news you'll be able to
+specify a category to which the article will belong (selecting category it optional), that way you can organize your news.
+Now, when adding new category you'll be able to specify name for this category and optionally URL to icon for this category.
+Automatically an ID number will be set for the new category, this ID is used when using include script to show all news <b>only</b>
+from this category. Example code:<div class="code">&lt;?PHP<br>
+\$category = "<b>2</b>";<br>include("path/to/show_news.php");<br>
+?&gt;</div>
+the above PHP code included on your page will display all news from category with ID 2<br>
+If you for example have 5 categories and want to display news on one page from only 3 of the categories, you can use the fallowing code:
+<div class="code">&lt;?PHP<br>
+\$category = "<b>2</b>,<b>3</b>,<b>5</b>";<br>include("path/to/show_news.php");<br>
+?&gt;</div>
+the above code will display all news from categories with ID 2, 3 and 5.<br>
+When you does <b>not</b> use \$category = "&lt;ID&gt;"; CuteNews will display the news from all categories, but when using this code, only news from the specified category(s) will be shown.<br><br>
+The category icon can be shown together with your news, to do this you must put {category-icon} in your news templates.
+HTML;
+
+//----------------------------------
+// Templates Section
+//----------------------------------
+$help_sections["templates"] = <<<HTML
+<h1>Understanding Templates</h1>
+Templates are used for easy editing the news look and the way news are displayed.
+You can view the different parts of the template that are used for different parts of your news look.
+For example the "Active News" part of the default template is used to modify the look of the active news, "Full Story" for the way your full story will look like,
+"Comment" is the part corresponding to the appearance of the comments posted by users etc.<br><br>
+When editing parts of the template you can use HTML in them to build different structures etc. Now you'll need to add some special tags in your templates
+to specify the place where the title of your news will be displayed and the author name and the date when the news was pasted etc... these tags are
+explained above each part of the template.<br>
+Lets take the "Active News" part for example: when you expand this part, a list of allowed tags for this part will be displayed and under them will be the
+text area. One very common and easy tag is <b>{title}</b>, wherever you put this tag in your template it will be replaced with the real title of your news.<br><br>
+You can have more than one template, this is useful if you want to include the news on different pages of your site with different look of the news.<br>
+After creating more templates you must use specific code when including news to indicate whit which template the news to be shown.<br>
+example code:<div class="code">&lt;?PHP<br>
+\$template = "my_test_template";<br>include("path/to/show_news.php");<br>
+?&gt;</div>With the above code, all news will be showed using the my_test_template that you have created yourself.
+if you don't specify what template to use, all news will use Default template which can not be deleted.
+HTML;
+
+//----------------------------------
+// Archives Section
+//----------------------------------
+$help_sections["archives"] = <<<HTML
+<h1>Explaining Archives and Their Usage</h1>
+When you send your news to the archive, CuteNews will automatically create a new archive file under the ./archives/ folder with extension .arch .
+Then all news that you selected for archiving will be moved from news.txt (where only the active news are hold) to the newly created file in archives/
+Therefore the news you have archived won't be visible from show_news.php but from show_archives.php where all available archives are nicely listed.<br>
+Once the news are archived CuteNews don't have built-in feature for moving back news from archive to active news, so the only way to do it is by manually
+opening the archive file and copying its content to news.txt<br><br>
+When you send all your active news to the archive there won't be left active news, but if you use<br> \$number = <b>X</b>; in your include code, CuteNews will
+automatically show the X newest news from the archive.<br><br>
+Sending your news to archive is optional and you may never use it, but it is useful if you have many news articles and
+want to organize them. Using archive is also recommended when you have more than 3000 active news.
+HTML;
+
+//----------------------------------
+// Adding News Options
+//----------------------------------
+$help_sections["addnews_options"] = <<<HTML
+<h1>Options When Adding News</h1>
+When adding/editing news, you have several options that you can choose to apply to the specified article.
+<ul>
+<li><b>Convert new lines to &lt;br /&gt;</b> - if checked, this option will convert all the new lines in your article to the HTML equivalent for new line.</li>
+<li><b>Use HTML in this article </b> - if checked, CuteNews will parse this article as HTML elements + text, if unchecked - your article will be treated as pute text.</li>
+<li><b>Normal</b> adding of Article -  if you are adding your article as normal it will be immediately desplayed</li>
+<li><b>Draft</b> adding of Article -  this option will add the article but it will not be visible for your visitors until you activate (approve) it later.
+<li><b>Postpone</b> Article -  if you postpone your article you must select a date when it will automatically be published and became visible for your visitors, when the specified that is reached the article will be added as new with this date.
+</ul>
+HTML;
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Load the specified section in PopUp Window
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+if(isset($section)){
+        if(!isset($help_sections["$section"])){ die("Can not find the specified section <b>$section</b>"); }
+        echo"<HTML>
+    <style type=\"text/css\">
+        <!--
+        a:active,a:visited,a:link {color: #446488; text-decoration: none; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt;}
+        a:hover {color: #00004F; text-decoration: none; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt; }
+        .code {
+                font-family : Andale Mono, Courier;
+                border: 1px solid #BBCDDB;
+                margin:10px;
+                padding:4px;
+                background:#FBFFFF;
+        }
+    h1 {
+                background-color : #BBCDDB;
+                border-bottom : #000000 1px solid;
+                border-top : #000000 1px solid;
+                color : #000000;
+                font-family : Tahoma, Verdana, Arial, Helvetica, sans-serif;
+                font-size : 16px;
+                font-weight : bold;
+                margin : -10px 0px 10px 0px;
+                padding-bottom : 5px;
+                padding-left : 10px;
+                padding-right : 10px;
+                padding-top : 5px;
+                text-decoration : none;
+                margin-left: -10px;
+                margin-right: -8px;
+        }
+        BODY, TD, TR {text-align:justify ;padding: 0; text-decoration: none; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 8pt; cursor: default;}
+        -->
+        </style>
+    <TITLE>HELP - $section</TITLE>
+    <BODY>
+                ". $help_sections["$section"] ."
+    </BODY></HTML>";
+}
+
+else{
+
+        echoheader("question", "Help Documentation");
+    echo"<style type=\"text/css\">
+        <!--
+        .code {
+                font-family : Andale Mono, Courier;
+                border: 1px solid #BBCDDB;
+                margin:10px;
+                padding:4px;
+                background:#FBFFFF;
+        }
+    h1 {
+                background-color : #EAF0F4;
+                border-bottom : #000000 1px solid;
+                border-top : #000000 1px solid;
+                border-left : #000000 1px solid;
+
+                color : #000000;
+                font-family : Tahoma, Verdana, Arial, Helvetica, sans-serif;
+                font-size : 15px;
+                font-weight : bold;
+                padding-bottom : 5px;
+                padding-left : 10px;
+                padding-right : 10px;
+                padding-top : 5px;
+                text-decoration : none;
+        }
+        -->
+        </style>";
+    foreach($help_sections as $help_section){
+            echo"$help_section<BR><br>";
+    }
+
+        echofooter();
+}
+?>

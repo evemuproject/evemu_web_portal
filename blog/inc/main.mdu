@@ -1,0 +1,314 @@
+<?PHP
+//If member access level is commenter, redirect him to personal options
+if($member_db[1] == 4 and $action == "dologin"){ header("Location: $config_http_script_dir/index.php?mod=options&action=personal"); exit; }
+
+
+echoheader("home", "Welcome");
+
+    if(!is_readable("./data/archives")){ die("Error !!!<br>Can not open directory ./archives for reading, check if it exists or is properly CHMOD'ed"); }
+    if(!is_readable("./data/news.txt")){ die("Error !!!<br>Can not open file news.txt for reading, check if it exists or is properly CHMOD'ed"); }
+    if(!is_readable("./data/comments.txt")){ die("Error !!!<br>Can not open file comments.txt for reading, check if it exists or is properly CHMOD'ed"); }
+
+
+// Some Stats
+    $count_postponed_news = 0;
+    $count_unapproved_news = 0;
+    $todaynews = 0;
+    $count_comments = 0;
+    $count_my_news = 0;
+    $count_new_news = 0;
+    $news_db = file("./data/news.txt");
+     foreach ($news_db as $line)
+     {
+      $item_db = explode("|",$line);
+      $itemdate = date("d/m/y",$item_db[0]);
+      if($itemdate == date("d/m/y")) {
+              $todaynews++;
+              if($item_db[1] == $member_db[2]) $count_my_news++;
+        if(($item_db[0] > $member_db[9]) and ($member_db[9] != '')) $count_new_news++;
+      }
+     }
+    $stats_news = count( $news_db );
+    $stats_users = count( file("./data/users.db.php") ) - 1;
+    $count_postponed_news = count( file("./data/postponed_news.txt") );
+        if($count_postponed_news > 0){
+                ResynchronizePostponed();
+        }
+
+    if($config_auto_archive == "yes"){
+       ResynchronizeAutoArchive();
+    }
+
+    $count_unapproved_news = count( file("./data/unapproved_news.txt") );
+
+    $stats_archives = 0;
+    $handle = opendir("./data/archives");
+        while (FALSE !== ($file = readdir($handle)))
+        {
+        if( preg_match("/.news.arch/",$file) ){$stats_archives++;}
+        }
+        closedir($handle);
+//   $stats_news_size = formatsize(filesize("./data/news.txt"));
+//   $stats_comments_size = formatsize(filesize("./data/comments.txt"));
+
+        // Count Comments
+        $all_comments = file("./data/comments.txt");
+        foreach($all_comments as $news_comments){
+                $single_news_comments = explode("|>|", $news_comments);
+            $individual_comments = explode("||", $single_news_comments[1]);
+            $count_comments += count($individual_comments) - 1;
+        }
+// Define Welcome Message
+    echo"<table border=0 cellpading=0 cellspacing=0 width=654>
+        <tr><td width=650 colspan=5 height=1>
+        &nbsp;
+
+    <SCRIPT LANGUAGE=\"JavaScript\">
+        <!-- Begin
+        datetoday = new Date();
+        timenow=datetoday.getTime();
+        datetoday.setTime(timenow);
+        thehour = datetoday.getHours();
+        if                 (thehour < 9 )         display = \"Morning\";
+        else if (thehour < 12)         display = \"Day\";
+        else if (thehour < 17)         display = \"Afternoon\";
+        else if (thehour < 20)         display = \"Evening\";
+        else display = \"Night\";
+        var greeting = (\"Good \" + display);
+        document.write(greeting);
+        //  End -->
+        </script>
+
+     $member_db[2]";
+
+    if($todaynews != 1){ $s = "s"; }
+    if($member_db[1] != 4){
+            if($stats_users > 1){
+                $rand_msg[] = ", we have <b>$count_new_news</b> new articles since your last login (@ ".date("r",$member_db[9])." )";
+                $rand_msg[] = ", we have <b>$count_new_news</b> new articles since your last login (@ ".date("r",$member_db[9])." )";
+                $rand_msg[] = ", we have <b>$count_new_news</b> new articles since your last login (@ ".date("r",$member_db[9])." )";
+        }
+            if($todaynews == 0){
+                        $rand_msg[] = ", we don't have new articles today";
+                        $rand_msg[] = ", we don't have new articles today";
+                        $rand_msg[] = ", we don't have new articles today, the first one can be yours.";
+                        $rand_msg[] = ", we don't have new articles today, the first one can be yours.";
+                }
+        elseif($count_my_news == 0){
+                if($todaynews == 1){
+                                $rand_msg[] = ", today we have <b>$todaynews</b> new article{$s} but it is not yours";
+            }else{
+                                $rand_msg[] = ", today we have <b>$todaynews</b> new article{$s} but <b>$count_my_news</b> of them are yours";
+                        }
+        }
+        elseif($count_my_news == $todaynews){
+                if($count_my_news == 1){
+                                $rand_msg[] = ", today we have <b>$todaynews</b> new article{$s} and you wrote it";
+                                $rand_msg[] = ", today we have <b>$todaynews</b> new article{$s} and you wrote it";
+                                $rand_msg[] = ", today we have <b>$todaynews</b> new article{$s} and you wrote it";
+            }else{
+                                $rand_msg[] = ", today we have <b>$todaynews</b> new article{$s} and you wrote all of them";
+                                $rand_msg[] = ", today we have <b>$todaynews</b> new article{$s} and all are yours";
+                                $rand_msg[] = ", today we have <b>$todaynews</b> new article{$s}, want to <a href=\"$PHP_SELF?mod=addnews&action=addnews\"><b>add</b></a> some more?";
+                        }
+        }
+        else{
+                        if($count_my_news == 1){ $rand_msg[] = ", today we have <b>$todaynews</b> new article{$s}, <b>1</b> of them is yours"; }
+                        else{ $rand_msg[] = ", today we have <b>$todaynews</b> new article{$s}, <b>$count_my_news</b> of them are yours"; }
+        }
+                $rand_msg[] = ", are you in a mood of <a href=\"$PHP_SELF?mod=addnews&action=addnews\"><b>adding</b></a> some news?";
+        $rand_msg[] = ", today we have <b>$todaynews</b> new article{$s}, from total <b>$stats_news</b>";
+        if($member_db[9] != ""){
+                $rand_msg[] = ", your last login was on ".date("d M Y H:i:s", $member_db[9]);
+                $rand_msg[] = ", your last login was on ".date("d M Y H:i:s", $member_db[9]);
+                }
+
+        $rand_msg[] = "";
+
+        srand((double) microtime() * 1000000);
+                echo $rand_msg[rand(0, count($rand_msg)-1)]."<br><br></td></tr>";
+        }
+
+
+  //----------------------------------
+  // Notify user if the news were auto-archived
+  //----------------------------------
+
+  //get last auto-archive date
+  $ladb_content = file("$cutepath/data/auto_archive.db.php");
+  list($last_archived[year], $last_archived[month]) = explode("\|", $ladb_content[0] );
+  $last_login_year = date("Y", ($member_db[9] || time()) );
+  $last_login_month = date("n", ($member_db[9] || time()) );
+
+  if((int)$last_login_month < (int)$last_archived[month] and $last_login_year <= $last_archived[year]){   
+
+       echo"<tr><td style='padding:3px; border:1px dashed orange; background-color:yellow;' colspan=5 height=1>
+         <b>Attention!</b><br>
+         CuteNews has performed auto-archive opperation since your last login at ".date("d M Y H:i:s", $member_db[9])."<br>
+         If you don't want your news to be auto-archived every month,<br>
+         you can swith this option off from <a href=\"?mod=options&action=syscon\">System Configurations</a>.
+
+         </td></tr>";
+
+}
+  //----------------------------------
+  // Do we have enough free space ?
+  //----------------------------------
+  $dfs = @disk_free_space("./");
+//  $dfs = 5341;
+  if($dfs and $dfs < 10240){
+  $freespace = formatsize($dfs);
+       echo"<tr><td style='padding:3px; border:1px dashed red; background-color:#FFB9B9;' colspan=5 height=1>
+         <b>Warning!</b><br>
+         According to CuteNews, your estimated free space is $freespace. Take action to enlarge your free space or
+         some data files could be damaged during the writing procedure. <a href=\"?mod=tools&action=backup\">Backup your data now</a>.
+         </td></tr>";
+  }
+
+  //----------------------------------
+  // Install script still exists ?
+  //----------------------------------
+  if ($action == 'delete-install'){ @unlink('./inc/install.mdu'); }
+  if(file_exists('./inc/install.mdu')){
+  $freespace = formatsize($dfs);
+       echo"<tr><td style='padding:3px; border:1px dashed orange; background-color:yellow;' colspan=5 height=1>
+         <b>Attention!</b><br>
+         CuteNews found that the installation module is still located in the /inc folder.<br>
+         Please delete or rename the <b>/inc/install.mdu</b> file for security reasons.<br><br>
+         <a href='$PHP_SELFT?mod=main&action=delete-install'><b>(try to delete the file automatically)</b></a><br>&nbsp;
+         </td></tr>";
+  }
+
+  //----------------------------------
+  // Are we using SafeSkin ?
+  //----------------------------------
+  if($using_safe_skin){
+  $freespace = formatsize($dfs);
+       echo"<tr><td style='padding:3px; border:1px dashed orange; background-color:yellow;' colspan=5 height=1>
+         <b>Attention!</b><br>
+         CuteNews was unable to load the selected '$config_skin' skin, and automatically reverted to the default one.<br>
+         Please ensure that the proper skin files exist, or select another skin.
+         </td></tr>";
+  }
+
+  //----------------------------------
+  // Is our PHP version old ?
+  //----------------------------------
+  if($phpversion and $phpversion < '4.1.0'){
+  $freespace = formatsize($dfs);
+       echo"<tr><td style='padding:3px; border:1px dashed orange; background-color:yellow;' colspan=5 height=1>
+         <b>Attention!</b><br>
+         Your version of PHP ($phpversion) is too old. Please consider contacting your server administrator and updating to the
+         latest stable PHP version.
+         </td></tr>";
+  }
+
+
+  // Show Some stats
+    if($member_db[1] == 1){
+            echo "<tr><td valign=middle height=1 bgcolor=#F7F6F4 width=286 colspan=2>
+              &nbsp;<b>Some stats</b>
+              <td valign=middle height=1 width=35>
+              <td valign=middle height=1 bgcolor=#F7F6F4 width=326 colspan=2>
+              &nbsp;<b>System SelfCheck</b>
+              </tr>
+
+              <tr>
+              <td valign=middle height=1 width=137>
+              &nbsp; <a title='View all Active News (Edit News)' href='$PHP_SELF?mod=editnews&action=list'>Active News</a>
+              <td valign=middle height=1 width=146>
+              $stats_news
+              <td valign=middle height=1 width=37>
+              <td valign=middle height=1 width=201>
+              &nbsp; Can write to news.txt
+              <td valign=middle style='text-align:center' height=1 >";
+
+              if(is_writable("./data/news.txt")){ echo "<font color=green>Yes</font>"; }
+              else{ echo "<font color=red>No</font>"; }
+
+              echo"</tr>
+
+              <tr>
+              <td valign=middle height=1 width=137>
+              &nbsp; <a title='View all Postponed Articles' href='$PHP_SELF?mod=editnews&action=list&source=postponed'>Postponed News</a>
+              <td valign=middle height=1 width=146>
+              $count_postponed_news
+              <td valign=middle height=1 width=37>
+              <td valign=middle height=1 width=201>
+              &nbsp; Can write to postponed_news.txt
+              <td valign=middle height=1 style='text-align:center' >";
+
+              if(is_writable("./data/postponed_news.txt")){ echo "<font color=green>Yes</font>"; }
+              else{ echo "<font color=red>No</font>"; }
+
+              echo"</tr>
+
+              <tr>
+              <td valign=middle height=1 width=137>
+              &nbsp; <a title='View all Unapproved Articles' href='$PHP_SELF?mod=editnews&action=list&source=unapproved'>Unapproved News</a>
+              <td valign=middle height=1 width=146> ";
+              if($count_unapproved_news > 0){
+                 echo"<span style='background-color:yellow;'>$count_unapproved_news</span>";
+              }else{
+                 echo"$count_unapproved_news";
+              }
+              echo"<td valign=middle height=1 width=37>
+              <td valign=middle height=1 width=201>
+              &nbsp; Can write to unapproved news
+              <td valign=middle height=1 style='text-align:center'>";
+
+               if(is_writable("./data/unapproved_news.txt")){ echo "<font color=green>Yes</font>"; }
+              else{ echo "<font color=red>No</font>"; }
+
+              echo"</tr>
+
+              <tr>
+              <td valign=middle height=1 width=137>
+              &nbsp; Active Comments
+              <td valign=middle height=1 width=146>
+              $count_comments
+              <td valign=middle height=1 width=37>
+              <td valign=middle height=1 width=201>
+              &nbsp; Can write to comments.txt
+              <td valign=middle height=1 style='text-align:center'>";
+
+              if(is_writable("./data/comments.txt")){ echo "<font color=green>Yes</font>"; }
+              else{ echo "<font color=red>No</font>"; }
+
+              echo"</tr>
+              <tr>
+              <td width=137 valign=middle height=1>
+              &nbsp; <a title='View all Archives (Archives Manager)' href='$PHP_SELF?mod=tools&action=archive'>Archives</a>
+              <td width=146 valign=middle height=1>
+              $stats_archives
+              <td width=37 valign=middle height=1>
+              <td width=201 valign=middle height=1>
+              &nbsp; Can write to users.db.php
+              <td width=121 valign=middle style='text-align:center' height=1>";
+
+              if(is_writable("./data/users.db.php")){ echo "<font color=green>Yes</font>"; }
+              else{ echo "<font color=red>No</font>"; }
+
+              echo"</tr>
+              <tr>
+              <td width=137 valign=middle height=1>
+              &nbsp; <a title='View all Users (Add/Edit Users)' href='$PHP_SELF?mod=editusers&action=list'>Users</a>
+              <td width=146 valign=middle height=1>
+              $stats_users
+              <td width=37 valign=middle height=1>
+              <td width=201 valign=middle height=1>
+              &nbsp; Can write to archives dir
+              <td width=121 valign=middle style='text-align:center' height=1>";
+
+              if(is_writable("./data/archives")){ echo "<font color=green>Yes</font>"; }
+              else{ echo "<font color=red>No</font>"; }
+
+              echo"</tr>
+
+
+                          ";
+    }
+        echo"</table>";
+
+echofooter();
+?>

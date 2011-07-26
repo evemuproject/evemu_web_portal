@@ -1,0 +1,113 @@
+<?PHP
+if($member_db[1] != 1){ msg("error", "Access Denied", "You don't have permission for this section"); }
+// ********************************************************************************
+// Add IP
+// ********************************************************************************
+if($action == "add" OR $action == "quickadd")
+{
+        if(!$add_ip){ msg("error","Error !!!","The IP can not be blank", "$PHP_SELF?mod=ipban"); }
+
+    $all_ip = file("./data/ipban.db.php");
+    $exist = FALSE;
+    foreach($all_ip as $ip_line)
+    {
+                $ip_arr = explode("|", $ip_line);
+        if($ip_arr[0] == $add_ip){ $exist = TRUE; }
+    }
+    if(!$exist)
+    {
+            $new_ips = fopen("./data/ipban.db.php", "a");
+            $add_ip = stripslashes( preg_replace(array("'\|'",), array("I",), $add_ip) );
+                fwrite($new_ips, "$add_ip|0||\n");
+                fclose($new_ips);
+    }
+
+    if($action == "quickadd"){ die('The IP '.$add_ip.' is now banned from commenting.'); }
+}
+// ********************************************************************************
+// Remove IP
+// ********************************************************************************
+elseif($action == "remove")
+{
+        if(!$remove_ip){ msg("error","Error !!!","The IP can not be blank", "$PHP_SELF?mod=ipban"); }
+
+    $old_ips = file("./data/ipban.db.php");
+    $new_ips = fopen("./data/ipban.db.php", "w");
+
+    foreach($old_ips as $old_ip_line){
+            $ip_arr = explode("|", $old_ip_line);
+            if($ip_arr[0] != stripslashes($remove_ip)){
+                        fwrite($new_ips, $old_ip_line);
+        }
+    }
+        fclose($new_ips);
+}
+// ********************************************************************************
+// List all IP
+// ********************************************************************************
+echoheader("options", "IP Blocking");
+
+echo'<table border=0 cellpading=0 cellspacing=0 width="645" >
+    <form method=post action="'.$PHP_SELF.'">
+    <td width=321 height="33">
+    <b>Block IP</b>
+<table border=0 cellpading=0 cellspacing=0 width=379  class="panel" cellpadding="7" >
+    <tr>
+    <td width=79 height="25">
+    &nbsp;IP Address : <br>&nbsp;<br>&nbsp;
+        <td width=274 height="25">
+    <input type=text name=add_ip>&nbsp;&nbsp; <input type=submit value="Block this IP"><br>   <br>
+    example: <i>129.32.31.44</i>  or <i>129.32.*.*</i>
+    </tr>
+    <input type=hidden name=action value=add>
+        <input type=hidden name=mod value=ipban>
+    </form>
+    </table>
+    <tr>
+        <td width=654 height="11">
+        <img height=20 border=0 src="skins/images/blank.gif" width=1>
+    </tr><tr>
+        <td width=654 height=14>
+    <b>Blocked IP Addresses</b>
+    </tr>
+    <tr>
+        <td width=654 height=1>
+  <table width=641 height=100% cellspacing=0 cellpadding=0>
+    <tr>
+      <td width=15 bgcolor=#F7F6F4></td>
+      <td width=260 bgcolor=#F7F6F4><u>IP</u></td>
+      <td width=218 bgcolor=#F7F6F4><u>times been blocked</u></td>
+      <td width=140 bgcolor=#F7F6F4>&nbsp;<u>unblock</u></td>
+    </tr>';
+
+
+$all_ips = file("./data/ipban.db.php");
+$i = 0;
+foreach($all_ips as $ip_line)
+{
+        if(!eregi("<\?",$ip_line))
+    {
+        if($i%2 != 0){ $bg = "bgcolor=#F7F6F4"; }else{ $bg = ""; }
+        $i++;
+        $ip_arr = explode("|", $ip_line);
+        $ip_arr[0] = stripslashes( preg_replace(array("'\"'", "'\''"), array("&quot;", "&#039;"), $ip_arr[0]) );
+        echo"
+        <tr $bg height=18>
+        <td></td>
+        <td>
+        <a href=\"http://www.ripe.net/perl/whois?searchtext=$ip_arr[0]\" target=_blank title=\"Get more information about this ip\">$ip_arr[0]</a>
+        </td>
+               <td>$ip_arr[1]</td>
+        <td>
+        <a href=\"$PHP_SELF?mod=ipban&action=remove&remove_ip=$ip_arr[0]\">[unblock]</a></td>
+        </tr>
+        ";
+    }
+}
+
+if($i == 0){ echo"<tr><td align=center colspan=5><br> &nbsp;No blocked IP's</td></tr>"; }
+
+echo'</table></table>';
+
+echofooter();
+?>

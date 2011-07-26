@@ -1,0 +1,7 @@
+All are EVE Server like:
+
+Apocrypha:
+Admin	=	4294967231
+
+Incursion:
+Admin	=	18014398509481984

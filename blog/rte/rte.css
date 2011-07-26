@@ -1,0 +1,66 @@
+
+.rteImage {
+        background: #D3D3D3;
+        background: #ECE9D8;
+        border: 1px solid #ECE9D8;
+}
+
+.rteImageRaised, .rteImage:hover {
+        background: #D3D3D3;
+        border: 1px outset;
+}
+
+.rteImageLowered, .rteImage:active {
+        background: #D3D3D3;
+        border: 1px inset;
+}
+
+.rteVertSep {
+        margin: 0 4px 0 4px;
+}
+
+.rteBack {
+        background: #D3D3D3;
+        background: #ECE9D8;
+        border: 1px outset;
+        letter-spacing: 0;
+        
+}
+
+.rteBack tbody tr td, .rteBack tr td {
+
+        background: #D3D3D3;
+        background: #ECE9D8;
+        padding: 0;
+}
+
+.rteDiv {
+        display: block;
+        position: relative;
+}
+
+
+.rteImage {background:#EFEDDE;border:1px solid #EFEDDE;width:25px;height:24px;margin:0px;}
+.rteImageRaised,.rteImage:hover {background:#cddbf3;border:1px solid #6e9ce6;width:25px;height:24px;margin:0px;}
+.rteImageLowered,.rteImage:active {background:#C1D2EE;border:1px solid #316ac5;width:25px;height:24px;margin:0px;}
+.rteSep {margin:0 2px 0 2px;width:1px;height:20px;border:0px}
+.rteBar {
+	margin:0 2px 0 4px;
+	width:3px;
+	height:15px;
+	border:0px
+}
+.rteBack {
+	background:#EFEDDE;
+	letter-spacing:0;
+	height:24px;
+	border:0px;
+	border-top: 1px solid gray;
+	border-left: 1px solid gray;
+	border-right: 1px solid gray;
+padding: 2px;
+}
+.rteBack tbody tr td, .rteBk tr td {background:#EFEDDE;height:24px}
+.rteDiv {display:block;position:relative}
+
+
