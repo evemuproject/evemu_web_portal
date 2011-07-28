@@ -49,7 +49,7 @@
 	$portal_on = true; // Is the portal openned ?
 	
 	/* Role */
-	$adminRole = 18014398509481984; // Admin role
-	$registerRole = 18014398509481984; //Default registration role for register script
+	$adminRole = 4294967231; // Admin role
+	$registerRole = 4294967231; //Default registration role for register script
 
 ?>

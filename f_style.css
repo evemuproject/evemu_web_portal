@@ -20,6 +20,7 @@ body{
 	background-image: url(./images/style/background.jpg);
 	background-repeat: no-repeat;
 	background-position: center top;
+	background-attachment: fixed;
 }
 
 /* Footer */

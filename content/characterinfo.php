@@ -126,7 +126,7 @@
 ?>
 <div id="iheader">
 <table width=100%>
-<tr><th width=64>Image</th><th>Skill name</th><th>Skill level</th></tr>
+<tr><th width=64>Icon</th><th>Skill name</th><th>Skill level</th></tr>
 <?
 				while( $row = @mysql_fetch_array( $result, MYSQL_ASSOC ) )
 				{
@@ -138,7 +138,32 @@
 					echo $row[ 'valueInt' ];
 					echo '</td></tr>';
 				}
-			
+				
+				// Ok now fetch all the implants data
+				$query = "SELECT typeName, entity.typeID, entity.flag FROM entity LEFT JOIN invTypes ON invTypes.typeID = entity.typeID WHERE ownerID=".$_GET[ 'c' ]." AND locationID=".$_GET[ 'c' ]." AND (flag=89 OR flag=88);";
+				$result = @mysql_query( $query, $connections[ 'game' ] );
+				
+				if( ( $result ) && ( mysql_num_rows( $result ) != 0 ) && ( !is_incursion() ) )
+				{
+?>
+</table>
+</div>
+
+<div id="iheader">
+<table width=100%>
+<tr><th width=64>Icon</th><th>Implant/Booster name</th><th>Type</th></tr>
+<?
+					while( $row = @mysql_fetch_array( $result, MYSQL_ASSOC ) )
+					{
+						echo '<tr><td>';
+						echo "<a href=\"?p=iteminfo&item=".$row[ 'typeID' ]."\" alt=\"Show item info\"><img width=64 height=64 src=\"".$icon->check( $row[ 'typeID' ] )."\" alt=\"".$row[ 'typeName' ]."\"></a>";
+						echo '</td><td>';
+						echo '<a href="?p=iteminfo&item='.$row[ 'typeID' ].'" alt="Show item info">'.$row[ 'typeName' ].'</a>';
+						echo '</td><td><center>';
+						if( $row[ 'flag' ] == 89 ) echo 'Implant</center></td></tr>';
+						else if( $row[ 'flag' ] == 88 ) echo 'Booster</center></td></tr>';
+					}
+				}
 ?>
 </table>
 </div>
