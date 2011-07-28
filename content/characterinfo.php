@@ -117,7 +117,7 @@
 </table>
 </div>
 <?
-			if( $belongsTo )
+			if( ( $belongsTo ) || ( ( isset( $_SESSION[ 'portalUser' ] ) ) && ( is_admin( $_SESSION[ 'portalUser' ] ) ) ))
 			{
 				// Ok the character is selected, now fetch all the data, thats gonna hurt!
 				$query = "SELECT typeName, categoryID, entity.typeID, entity.locationID, entity_attributes.valueInt FROM entity LEFT JOIN invtypes ON entity.typeID = invtypes.typeID LEFT JOIN invgroups ON invtypes.groupID = invgroups.groupID LEFT JOIN entity_attributes ON entity.itemID = entity_attributes.itemID WHERE ownerID=".$_GET[ 'c' ]." AND locationID=".$_GET[ 'c' ]." AND attributeID=280;";
