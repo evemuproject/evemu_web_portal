@@ -23,8 +23,11 @@
         ------------------------------------------------------------------------------------
         Author:         Almamu
 */
-
-	if( ( isset( $_SESSION[ 'portalRole' ] ) ) && ( isset( $_SESSION[ 'portalUser' ] ) ) && ( isset( $_SESSION[ 'portalPassword' ] ) ) )
+	if( is_incursion() )
+	{
+		echo '<div id="theader"><table><tr><th><center><font style="color: rgb( 255, 0, 0 );"><strong>Error</strong></font></th></tr><tr><td><center>EVEmu portal is not compatible with incursion login/register functions</center></td></tr></table></div>';
+	}
+	else if( ( isset( $_SESSION[ 'portalRole' ] ) ) && ( isset( $_SESSION[ 'portalUser' ] ) ) && ( isset( $_SESSION[ 'portalPassword' ] ) ) )
 	{
 		echo '<div id="theader"><table><tr><th><center><font style="color: rgb( 255, 0, 0 );"><strong>Error</strong></font></th></tr><tr><td><center>You are already logged in. Click <a href="?p=">here</a> to see the news</center></td></tr></table></div>';
 	}else if( ( isset( $_POST[ 'username' ] ) ) && ( isset( $_POST[ 'password' ] ) ) )
@@ -36,7 +39,8 @@
 			echo '<div id="theader"><table><tr><th><center><font style="color: rgb( 255, 0, 0 );"><strong>Error</strong></font></th></tr><tr><td><center>You should write a password</center></td></tr></table></div>';
 		}else{			
 			// Check if the user exists
-			$query = "SELECT 1 AS correct, role, banned FROM account WHERE accountName='".$_POST[ 'username' ]."' AND password=PASSWORD('".$_POST[ 'password' ]."');";
+			if( !is_incursion() ) $query = "SELECT 1 AS correct, role, banned FROM account WHERE accountName='".$_POST[ 'username' ]."' AND password=PASSWORD('".$_POST[ 'password' ]."');";
+			else $query = "SELECT 1 AS correct, role, banned, hash FROM account WHERE accountName='".$_POST[ 'username' ]."' AND hash=BIN('".$hash."');";
 			$gameserver_result = mysql_query( $query, $connections[ 'game' ] );
 			if( $row = mysql_fetch_array( $gameserver_result, MYSQL_ASSOC ) )
 			{

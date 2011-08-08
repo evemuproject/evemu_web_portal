@@ -6,3 +6,6 @@ host, user and password.
 Also the gameserver database is required. You should also
 change the config.php according to your server's database name,
 host, user and password.
+
+If you already have an evemu database and you have an admin user
+you should not execute install script, as it only creates and admin account.

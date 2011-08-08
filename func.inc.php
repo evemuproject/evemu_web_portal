@@ -30,9 +30,16 @@
 		$status = @fsockopen( $game_server, $game_port + 1, $ERROR_NO, $ERROR_STR, ( float ) 0.5 );
 		if( $status )
 		{
+			
 			fclose( $status );
 			return true;
 		}
+		
+		if( isset( $server_version ) )
+		{
+			if( $server_version == "incursion" ) return 2; // This will prevent imgCache to try load the image from server
+		}
+		
 		return false;
 	}
 	
@@ -73,7 +80,7 @@
 			{
 				return 'images/cache/characters/?img='.$characterID.'';
 			}else{
-				if( is_incursion() )
+				if( is_incursion() == true )
 				{
 					$cache_file = 'http://'.$game_server.':'.( $game_port + 1 ).'/Character/'.$characterID.'_512.jpg';
 					$oF = fopen( $cache_file, 'r' );

@@ -24,7 +24,11 @@
         Author:         Almamu
 */
 
-	if( ( isset( $_POST[ 'username' ] ) ) && ( isset( $_POST[ 'password' ] ) ) )
+	if( is_incursion() )
+	{
+		echo '<div id="theader"><table><tr><th><center><font style="color: rgb( 255, 0, 0 );"><strong>Error</strong></font></th></tr><tr><td><center>EVEmu portal is not compatible with incursion login/register functions</center></td></tr></table></div>';
+	}
+	else if( ( isset( $_POST[ 'username' ] ) ) && ( isset( $_POST[ 'password' ] ) ) )
 	{
 		if( ( empty( $_POST[ 'username' ] ) ) )
 		{

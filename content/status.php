@@ -29,18 +29,20 @@
 <?
 	// Open a socket and try to connect to the server
 	$err = 0; // We will use it later to see if the server was on or not
+
+	echo 'Server version: ';
+	if( is_incursion() )
+	{
+		echo '<strong><font color=orange>Incursion</font></strong><br>';
+	}else{
+		echo '<strong><font color=green>Apocrypha</font></strong><br>';
+	}
+	
 	$status = @fsockopen( $game_server, $game_port, $ERROR_NO, $ERROR_STR, ( float ) 0.5 );
 	if( $status )
 	{
 		fclose( $status );
 		// There are a lot of versions of evemu, including the caytchen one, and this portal will be fully compatible with it and its imageserve
-		echo 'Server version: ';
-		if( is_incursion() )
-		{
-			echo '<strong><font color=green>Incursion</font></strong><br>';
-		}else{
-			echo '<strong><font color=orange>Apocrypha</font></strong><br>';
-		}
 		echo 'Server status: ';
 		echo '<strong><font color=green>Online</font></strong><br>';
 	}else{

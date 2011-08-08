@@ -33,7 +33,7 @@
 	$sql_gameserver_user = "Almamu"; // MYSQL User for gameserver DB
 	$sql_gameserver_pass = "966772320"; // MySQL Password for gameserver DB
 	$sql_gameserver_host = "localhost"; // MySQL Host for gameserver DB
-	$sql_gameserver_db = "evemu"; // Server database name
+	$sql_gameserver_db = "eve-incursion"; // Server database name
 
 	/* Portal DB */
 	$sql_portal_user = "Almamu"; // MySQL User for portal DB
@@ -42,7 +42,7 @@
 	$sql_portal_db = "eveportal"; // Portal database name
 
 	/* Server config */
-	$game_server = "localhost"; // EVEmu Server
+	$game_server = "127.0.0.1"; // EVEmu Server
 	$game_port = 26000; // EVEmu Server Port
 	
 	/* Portal config */
@@ -51,5 +51,8 @@
 	/* Role */
 	$adminRole = 4294967231; // Admin role
 	$registerRole = 4294967231; //Default registration role for register script
+	
+	/* Server version */
+	$server_version = "incursion";
 
 ?>
