@@ -15,7 +15,7 @@
 	</style>
 </head>
 <body>
-	<div style="margin: 30%;">
+	<div style="margin: 30% 30% 30% 30%; text-align: center;">
 		EVEmu Portal is under construction
 	</div>
 </body>
