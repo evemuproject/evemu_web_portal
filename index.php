@@ -6,7 +6,9 @@
 		Header("Location: install/index.php");
 	}
 	
-	if(include("config.php") == false)
+	$result = include("config.php");
+	
+	if($result == false)
 	{
 		// Wrong config file was generated, go to install script
 		Header("Location: install/index.php");
@@ -16,6 +18,12 @@
 	require_once "include/functions.inc.php";
 	require_once "include/database.inc.php";
 	require_once "include/forum.inc.php";
+	require_once "include/accounts.inc.php";
+	
+	if(Database::Connect() == false)
+	{
+		echo 'Error';
+	}
 ?>
 
 <!DOCTYPE html>
@@ -42,3 +50,7 @@
 		</div>
 	</body>
 </html>
+
+<?php
+	Database::Close();
+?>

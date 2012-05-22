@@ -23,4 +23,17 @@
 		
 		return $table_result;
 	}
+	
+	function CheckGameServerStatus($server, $port)
+	{
+		$status = @fsockopen($server, $port, $ERROR_NO, $ERROR_STR, (float)0.5);
+		
+		if($status)
+		{
+			fclose($status);
+			return true;
+		}
+		
+		return false;
+	}
 ?>

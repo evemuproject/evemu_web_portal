@@ -12,7 +12,10 @@
 		Header("Location: /install/index.php");
 	}
 	
+	require_once "../include/functions.inc.php";
 	require_once "../include/database.inc.php";
+	require_once "../include/accounts.inc.php";
+	require_once "include/config.inc.php";
 ?>
 
 <!DOCTYPE html>
@@ -110,6 +113,15 @@
 					vertical-align: middle;
 					height: 50px;
 				}
+
+				#warn
+				{
+					color: rgb(220, 220, 17);
+					
+					text-align: center;
+					vertical-align: middle;
+					height: 50px;
+				}
 				
 				#license
 				{
@@ -120,6 +132,24 @@
 					border-color: rgb(0, 0, 0);
 					text-shadow: 0 0 0 #FFFFFF;
 					width: 90%
+				}
+				
+				#userlist
+				{
+					border-width: 1px;
+					border-color: rgb(255, 255, 255);
+					border-style: solid;
+					border-collapse: collapse;
+					
+					background-color: rgb(17, 17, 17);
+					width: 90%;
+				}
+				
+				#userlist td
+				{
+					border-width: 1px;
+					border-style: solid;
+					border-color: rgb(255, 255, 255);
 				}
 			-->
 		</style>
