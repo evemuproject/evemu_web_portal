@@ -131,7 +131,9 @@
 					border-style: solid;
 					border-color: rgb(0, 0, 0);
 					text-shadow: 0 0 0 #FFFFFF;
-					width: 90%
+					width: 90%;
+					height: 600px;
+					overflow: scroll;
 				}
 				
 				#userlist
