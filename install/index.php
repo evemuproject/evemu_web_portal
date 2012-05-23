@@ -49,6 +49,8 @@
 					behavior:url(border-radius.htc);
 					
 					width: 90%;
+					
+					text-align: left;
 				}
 				
 				a, a:visited
@@ -134,6 +136,7 @@
 					width: 90%;
 					height: 600px;
 					overflow: scroll;
+					text-align: left;
 				}
 				
 				#userlist
