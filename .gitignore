@@ -1,1 +1,4 @@
 config.php
+images/cache/Characters/*.jpg
+images/cache/InventoryType/*.png
+images/cache/Render/*.png

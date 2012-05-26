@@ -36,4 +36,23 @@
 		
 		return false;
 	}
+	
+	function userInput($string)
+	{
+		if(get_magic_quotes_gpc())
+		{
+			$string = stripslashes($string);
+		}
+		
+		if(phpversion() >= '4.3.0')
+		{
+			$string = mysql_real_escape_string($string);
+		}
+		else
+		{
+			$string = mysql_escape_string($string);
+		}
+		
+		return $string;
+	}
 ?>

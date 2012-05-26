@@ -107,6 +107,18 @@
 		
 		// Update the user portalRole
 		$query = "UPDATE account SET portalRole= portalRole | 32 WHERE accountID=" . $accountID;
+		Database::Query($query, false);
+		
+		// Create the portalcache table
+		$query = "DROP TABLE IF EXISTS portalcache";
+		Database::Query($query, false);
+		
+		$query = "CREATE TABLE `evemu-crucible`.`portalcache` (
+					`cacheName` VARCHAR( 255 ) NOT NULL ,
+					`cacheValue` TEXT NOT NULL ,
+					`cacheTime` BIGINT NOT NULL ,
+					PRIMARY KEY ( `cacheName` )
+				  ) ENGINE = InnoDB;";
 		
 		Database::Query($query, false);
 		?>
@@ -123,6 +135,7 @@
 		$cfg->AddVariable("DB_Password", $DB_Password);
 		$cfg->AddVariable("DB_Database", $DB_Database);
 		$cfg->AddVariable("GAME_Server", $GAME_Server);
+		$cfg->AddVariable("GAME_Port", $GAME_Port);
 		$cfg->AddVariable("GAME_APIPort", $GAME_APIPort);
 		$cfg->AddVariable("GAME_ImagePort", $GAME_ImagePort);
 		$cfg->Stop();

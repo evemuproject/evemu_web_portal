@@ -45,5 +45,10 @@
 		{
 			@mysql_close(Database::$connection);
 		}
+		
+		static public function GetLastError()
+		{
+			return @mysql_error(Database::$connection);
+		}
 	}
 ?>

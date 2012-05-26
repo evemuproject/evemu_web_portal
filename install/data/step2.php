@@ -80,7 +80,10 @@
 					</form>
 				<?php
 			}
-			else
+			
+			$error = mysql_error();
+			
+			if(empty($error))
 			{
 				$accountID = mysql_insert_id();
 				?>
@@ -95,6 +98,16 @@
 						<input type="submit" value="Next Step">
 					</form>
 				<?php
+			}
+			else
+			{
+			?>
+				<h4>MySql error</h4>
+				<div id="error">Cannot connect to the database. MySql error: <?php echo mysql_error(); ?></div>
+				<form method="POST" action="?step=1">
+					<input type="submit" value="Go back">
+				</form>
+			<?php
 			}
 		}
 		else

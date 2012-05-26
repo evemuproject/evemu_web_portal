@@ -15,14 +15,18 @@
 	}
 	
 	// Include some system headers
+	require_once "config.php";
+	require_once "include/cache.inc.php";
+	require_once "include/localcache.inc.php";
 	require_once "include/functions.inc.php";
 	require_once "include/database.inc.php";
 	require_once "include/forum.inc.php";
 	require_once "include/accounts.inc.php";
+	require_once "include/gameserver.inc.php";
 	
 	if(Database::Connect() == false)
 	{
-		echo 'Error';
+		echo Database::GetLastError();
 	}
 ?>
 
