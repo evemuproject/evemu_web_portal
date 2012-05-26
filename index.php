@@ -52,6 +52,7 @@
 	<body>
 		<div class='cssmenu'>
 		<ul>
+		   <li><a href='?p='><span>Home</span></a></li>
 		   <li><a href='#'><span>Portal Websites</span></a>
 			  <ul>
 				 <li><a href='#'><span>Account Management</span></a></li>
@@ -65,10 +66,35 @@
 				 <li><a href='#'><span>English</span></a></li>
 			  </ul>
 		   </li>
+		   
+		   <?php
+			// TODO: Add a check to show the user name or the login form
+		   ?>
+			<li style="float: right;"><a href="#"><form method="POST" action="#">
+				Username: <input type="text" name="username" value=""> 
+				Password: <input type="password" name="password" value=""> 
+				<input type="submit" value="Login">
+			</form></a></li>
 		</ul>
 		</div>
-		<div style="margin: 30% 30% 0% 30%; text-align: center;">
-			EVEmu Portal is under construction
+		
+		<div id="gamebanner"></div>
+		
+		<div id="content">
+		<?php
+			$page = "content/main.php";
+			if( @(empty($_GET['p']) == false) )
+			{
+				$page = "content/" . userInput($_GET['p']) . ".php";
+			}
+			
+			if(file_exists($page) == falsE)
+			{
+				$page = "404.php";
+			}
+			
+			include $page;
+		?>
 		</div>
 		
 		<div id="footer">
