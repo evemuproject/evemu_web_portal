@@ -12,6 +12,11 @@
 		Header("Location: /install/index.php");
 	}
 	
+	if(file_exists("../config.php") == true)
+	{
+		Header("Location: ../index.php");
+	}
+	
 	require_once "../include/functions.inc.php";
 	require_once "../include/database.inc.php";
 	require_once "../include/accounts.inc.php";
