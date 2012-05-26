@@ -51,7 +51,7 @@
 					-moz-border-radius: 12px;
 					border-radius: 12px; /* CSS3 */
 					
-					behavior:url(border-radius.htc);
+					behavior:url(../border-radius.htc);
 					
 					width: 90%;
 					
