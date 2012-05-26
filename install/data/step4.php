@@ -121,6 +121,16 @@
 				  ) ENGINE = InnoDB;";
 		
 		Database::Query($query, false);
+		
+		$query = "DROP TABLE IF EXISTS portalconfig";
+		Database::Query($query, false);
+		
+		$query = "CREATE TABLE `evemu-crucible`.`portalconfig` (
+					`configName` VARCHAR( 255 ) NOT NULL ,
+					`configValue` VARCHAR( 255 ) NOT NULL ,
+					PRIMARY KEY ( `configName` )
+				  ) ENGINE = InnoDB;";
+		Database::Query($query, false);
 		?>
 		<h4>Sucess</h4>
 		<div id="sucess">Database information added</div><br>

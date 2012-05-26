@@ -16,10 +16,13 @@
 	
 	// Include some system headers
 	require_once "config.php";
+	require_once "include/database.inc.php";
 	require_once "include/cache.inc.php";
 	require_once "include/localcache.inc.php";
+	require_once "include/configuration.inc.php";
+	require_once "include/portal.inc.php";
+	require_once "include/styles.inc.php";
 	require_once "include/functions.inc.php";
-	require_once "include/database.inc.php";
 	require_once "include/forum.inc.php";
 	require_once "include/accounts.inc.php";
 	require_once "include/gameserver.inc.php";
@@ -46,7 +49,11 @@
 			}
 		-->
 		</style>
-		<!-- Add meta here for your web -->
+		
+		<!-- Meta tags here -->
+		<meta name="Keywords" content="<?php echo Portal::GetPortalMetaKeywords(); ?>">
+		<meta name="Description" content="<?php echo Portal::GetPortalMetaDescription(); ?>">
+		<meta name="Author" content="<?php echo Portal::GetPortalMetaAuthors(); ?>">
 	</head>
 	<body>
 		<div style="margin: 30% 30% 30% 30%; text-align: center;">
