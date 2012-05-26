@@ -50,6 +50,13 @@
 		-->
 		</style>
 		
+		<style>
+			<!--
+				<?php
+					include PortalStyle::GetStyleConfig();
+				?>
+			-->
+		</style>
 		<!-- Meta tags here -->
 		<meta name="Keywords" content="<?php echo Portal::GetPortalMetaKeywords(); ?>">
 		<meta name="Description" content="<?php echo Portal::GetPortalMetaDescription(); ?>">

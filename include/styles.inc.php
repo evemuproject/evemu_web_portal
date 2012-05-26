@@ -3,9 +3,16 @@
 	{		
 		public static function GetImageFromStyle($image)
 		{
-			$style = PortalStyle::CurrentPortalStyle();
+			$style = Portal::CurrentPortalStyle();
 			
-			return "images/style/$style/$image";
+			return "style/$style/images/$image";
+		}
+		
+		public static function GetStyleConfig()
+		{
+			$style = Portal::CurrentPortalStyle();
+			
+			return "style/$style/style.php";
 		}
 	}
 ?>

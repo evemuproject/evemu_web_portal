@@ -18,7 +18,7 @@
 			$query = "SELECT cacheValue, cacheTime FROM portalcache WHERE cacheName='$name'";
 			$result = Database::Query($query, true);
 			
-			return $result[0];
+			return @$result[0];
 		}
 		
 		public static function GetCacheValue($name)
@@ -26,7 +26,7 @@
 			$query = "SELECT cacheValue FROM portalcache WHERE cacheName='$name'";
 			$result = Database::Query($query, true);
 			
-			return $result[0]['cacheValue'];
+			return @$result[0]['cacheValue'];
 		}
 		
 		public static function GetCacheTime($name)
@@ -34,7 +34,7 @@
 			$query = "SELECT cacheTime FROM portalcache WHERE cacheName='$name'";
 			$result = Database::Query($query, true);
 			
-			return $result[0]['cacheTime'];
+			return @$result[0]['cacheTime'];
 		}
 	}
 ?>

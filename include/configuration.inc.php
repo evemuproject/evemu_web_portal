@@ -7,7 +7,7 @@
 			$query = "SELECT configValue FROM portalconfig WHERE configName='$name '";
 			$result = Database::Query($query, true);
 			
-			return $result[0]['configValue'];
+			return @$result[0]['configValue'];
 		}
 		
 		public static function SetValue($name, $value)

@@ -12,7 +12,7 @@
 			}
 			
 			// Check for the most important file in the style folder
-			if(file_exists("style/$style/style.css") == false)
+			if(file_exists("style/$style/style.php") == false)
 			{
 				// Critic file does not exists, use default style
 				return 'default';
