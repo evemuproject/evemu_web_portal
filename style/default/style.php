@@ -109,3 +109,37 @@
 		background-repeat: no-repeat;
 		margin: 0;
 	}
+	
+	#footer
+	{
+		margin-bottom: 0px;
+		background-color: rgb(0, 0, 0);
+		border-top-style: solid;
+		border-top-width: 1px;
+		border-top-color: rgba(128, 128, 128, 0.35);
+		
+		height: 75px;
+		width: 96.1%;
+		float: left;
+	
+		margin-top: 29.90%;
+		
+		color: rgb(128, 128, 128);
+		padding-top: 25px;
+		padding-left: 50px;
+
+	}
+	
+	#footer a, a:visited
+	{
+		font: 67.5% 'Lucida Sans Unicode', 'Bitstream Vera Sans', 'Trebuchet Unicode MS', 'Lucida Grande', Verdana, Helvetica, sans-serif;
+		font-size:14px;
+		font-weight:bold;
+		color: rgb(24, 159, 204);
+		text-decoration: none;
+	}
+	
+	#footer a:hover
+	{
+		color: rgb(255, 255, 255);
+	}

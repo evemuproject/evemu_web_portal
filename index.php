@@ -67,8 +67,14 @@
 		   </li>
 		</ul>
 		</div>
-		<div style="margin: 30% 30% 30% 30%; text-align: center;">
+		<div style="margin: 30% 30% 0% 30%; text-align: center;">
 			EVEmu Portal is under construction
+		</div>
+		
+		<div id="footer">
+			<?php
+				include "footer.php";
+			?>
 		</div>
 	</body>
 </html>
