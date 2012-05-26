@@ -1,83 +1,111 @@
-	/* Dropdown navigation menu */
-	#nav
-	{
-		list-style:none;
+	// Dropdown menus stuff
+	.cssmenu{
+		border:none;
+		border:0px;
+		margin:0px;
+		padding:0px;
+		font: 67.5% 'Lucida Sans Unicode', 'Bitstream Vera Sans', 'Trebuchet Unicode MS', 'Lucida Grande', Verdana, Helvetica, sans-serif;
+		font-size:14px;
 		font-weight:bold;
-		margin-bottom:10px;
-		/* Clear floats */
-		float:left;
-		width:100%;
-		/* Bring the nav above everything else--uncomment if needed.
-		position:relative;
-		z-index:5;
-		*/
 	}
-
-	#nav li
+	.cssmenu ul
+	{
+		background:#333333;
+		height:35px;
+		list-style:none;
+		margin:0;
+		padding:0;
+	}
+	.cssmenu li
 	{
 		float:left;
-		margin-right:10px;
-		position:relative;
+		padding:0px;
 	}
-
-	#nav a
+	.cssmenu li a
+	{
+		background: rgba(51, 51, 51, 0.35) bottom right no-repeat;
+		color:#cccccc;
+		display:block;
+		font-weight:normal;
+		line-height:35px;
+		margin:0px;
+		padding:0px 25px;
+		text-align:center;
+		text-decoration:none;
+	}
+	.cssmenu li a:hover, .cssmenu ul li:hover a
+	{
+		background: rgba(37, 128, 162, 0.35) bottom center no-repeat;
+		color:#FFFFFF;
+		text-decoration:none;
+	}
+	
+	.cssmenu li ul
+	{
+		background: rgba(51, 51, 51, 0.35);
+		display:none;
+		height:auto;
+		padding:0px;
+		margin:0px;
+		border:0px;
+		position:absolute;
+		width:225px;
+		z-index:200;
+		/*top:1em;
+		/*left:0;*/
+	}
+	.cssmenu li:hover ul
 	{
 		display:block;
-		padding:5px;
-		color:#fff;
-		background:#333;
-		text-decoration:none;
+		
 	}
-
-	#nav a:hover
+	.cssmenu li li
 	{
-		color:#fff;
-		background:#6b0c36;
-		text-decoration:underline;
-	}
-
-	/*--- DROPDOWN ---*/
-	#nav ul
-	{
-		background:#fff; /* Adding a background makes the dropdown work properly in IE7+. Make this as close to your page's background as possible (i.e. white page == white background). */
-		background:rgba(255,255,255,0); /* But! Let's make the background fully transparent where we can, we don't actually want to see it if we can help it... */
-		list-style:none;
-		position:absolute;
-		left:-9999px; /* Hide off-screen when not needed (this is more accessible than display:none;) */
-	}
-
-	#nav ul li
-	{
-		padding-top:1px; /* Introducing a padding between the li and the a give the illusion spaced items */
+		background:url('images/sub_sep.gif') bottom left no-repeat;
+		display:block;
 		float:none;
+		margin:0px;
+		padding:0px;
+		width:225px;
 	}
-
-	#nav ul a
+	.cssmenu li:hover li a
 	{
-		white-space:nowrap; /* Stop text wrapping and creating multi-line dropdown items */
+		background:none;
+		
 	}
-
-	#nav li:hover ul
-	{ /* Display the dropdown on hover */
-		left:0; /* Bring back on-screen when needed */
+	.cssmenu li ul a
+	{
+		display:block;
+		height:35px;
+		font-size:12px;
+		font-style:normal;
+		margin:0px;
+		padding:0px 10px 0px 15px;
+		text-align:left;
 	}
-
-	#nav li:hover a
-	{ /* These create persistent hover states, meaning the top-most link stays 'hovered' even when your cursor has moved down the list. */
-		background:#6b0c36;
-		text-decoration:underline;
-	}
-
-	#nav li:hover ul a
-	{ /* The persistent hover state does however create a global style for links even before they're hovered. Here we undo these effects. */
+	.cssmenu li ul a:hover, .cssmenu li ul li:hover a
+	{
+		background: rgba(37, 128, 162, 0.35) center left no-repeat;
+		border:0px;
+		color:#ffffff;
 		text-decoration:none;
 	}
-
-	#nav li:hover ul li a:hover
-	{ /* Here we define the most explicit hover states--what happens when you hover each individual link. */
-		background:#333;
-	}
+	
+	.cssmenu p
+	{
+		clear:left;
+	}	
+		
 	body
 	{
+		font-family: Century Gothic, Verdana, Arial, Helvetica, sans-serif;
+		font-size: 10pt;
+		color: rgb(255, 255, 255);
+		background-color: rgb(17, 17, 17);
+		text-shadow: 0.1em 0.1em 0.05em #333;
 		background-image: url(<?php echo PortalStyle::GetImageFromStyle("background.jpg"); ?>);
+		background-position: center top;
+		background-attachment: none;
+		background-repeat: no-repeat;
+		margin: 0;
 	}

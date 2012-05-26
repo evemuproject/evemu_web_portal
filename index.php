@@ -36,20 +36,7 @@
 <!DOCTYPE html>
 	<html>
 	<head>
-		<title>EVEmu Portal - Under construction</title>
-		<style>
-		<!--
-			body
-			{
-				font-family: Century Gothic, Verdana, Arial, Helvetica, sans-serif;
-				font-size: 10pt;
-				color: rgb(255, 255, 255);
-				background-color: rgb(17, 17, 17);
-				text-shadow: 0.1em 0.1em 0.05em #333;
-			}
-		-->
-		</style>
-		
+		<title>EVEmu Portal - Under construction</title>		
 		<style>
 			<!--
 				<?php
@@ -63,6 +50,23 @@
 		<meta name="Author" content="<?php echo Portal::GetPortalMetaAuthors(); ?>">
 	</head>
 	<body>
+		<div class='cssmenu'>
+		<ul>
+		   <li><a href='#'><span>Portal Websites</span></a>
+			  <ul>
+				 <li><a href='#'><span>Account Management</span></a></li>
+				 <li><a href='#'><span>Forums</span></a></li>
+				 <li><a href='#'><span>Support</span></a></li>
+			  </ul>
+		   </li>
+		   <li><a href='#'><span>Language</span></a>
+			  <ul>
+				 <li><a href='#'><span>Spanish</span></a></li>
+				 <li><a href='#'><span>English</span></a></li>
+			  </ul>
+		   </li>
+		</ul>
+		</div>
 		<div style="margin: 30% 30% 30% 30%; text-align: center;">
 			EVEmu Portal is under construction
 		</div>
