@@ -131,6 +131,18 @@
 					PRIMARY KEY ( `configName` )
 				  ) ENGINE = InnoDB;";
 		Database::Query($query, false);
+		
+		$query = "CREATE TABLE `evemu-crucible`.`portalSupportMessages` (
+					`messageID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+					`accountID` INT NOT NULL DEFAULT '0',
+					`title` VARCHAR( 255 ) NOT NULL DEFAULT '',
+					`message` TEXT NOT NULL DEFAULT '',
+					`parentID` INT NOT NULL DEFAULT '0',
+					`timestamp` BIGINT NOT NULL ,
+					INDEX ( `accountID` , `parentID` , `timestamp` )
+					) ENGINE = InnoDB;";
+		
+		Database::Query($query, false);
 		?>
 		<h4>Sucess</h4>
 		<div id="sucess">Database information added</div><br>

@@ -32,6 +32,7 @@
 	require_once "include/forum.inc.php";
 	require_once "include/accounts.inc.php";
 	require_once "include/gameserver.inc.php";
+	require_once "include/support.inc.php";
 	
 	if(Database::Connect() == false)
 	{
