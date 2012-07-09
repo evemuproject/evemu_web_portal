@@ -24,6 +24,14 @@
 		$imageExtension = "jpg";
 	}
 	
+	$dir = @(opendir($folder));
+	
+	// Create the directory if it doesnt exists
+	if($dir == false)
+	{
+		mkdir($dir);
+	}
+	
 	$file = "$folder/$imageID.$imageExtension";
 	
 	if(file_exists($file) == false)

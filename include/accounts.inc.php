@@ -59,5 +59,37 @@
 				return true;
 			}
 		}
+		
+		public static function IsAdmin($accountID)
+		{
+			$query = "SELECT role FROM account WHERE accountID=$accountID AND portalRole=33";
+			
+			$result = Database::Query($query, true);
+			
+			if( @($result[0] == null) )
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		
+		public static function GetUserName($accountID)
+		{
+			$query = "SELECT accountName FROM account WHERE accountID=$accountID";
+			
+			$result = Database::Query($query, true);
+			
+			if( @($result[0] == null) )
+			{
+				return "Anonymous";
+			}
+			else
+			{
+				return $result[0]['accountName'];
+			}
+		}
 	}
 ?>

@@ -132,6 +132,9 @@
 				  ) ENGINE = InnoDB;";
 		Database::Query($query, false);
 		
+		$query = "DROP TABLE IF EXISTS portalSupportMessages";
+		Database::Query($query, false);
+		
 		$query = "CREATE TABLE `evemu-crucible`.`portalSupportMessages` (
 					`messageID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 					`accountID` INT NOT NULL DEFAULT '0',

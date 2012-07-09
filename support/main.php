@@ -33,7 +33,7 @@
 		// Print each entry
 		?>
 		<div id="supportEntry">
-			<div style="float: right;">Created: <strong><?php echo date("F j, Y, g:i a", $data[$i]['timestamp']); ?></strong></div>
+			<div style="float: right;">Created: <strong><?php echo date("F j, Y, g:i a", $data[$i]['timestamp']); ?></strong> by <strong><?php echo AccountManagement::GetUserName($data[$i]['accountID']); ?></strong></div>
 			<div style="float: left;">Title: <strong><a href="?p=support&m=view&ticket=<?php echo $data[$i]['messageID']; ?>"><?php echo $data[$i]['title']; ?></a></strong></div>
 			<br><hr>
 			<strong>Message:</strong><br><pre><?php echo substr($data[$i]['message'], 0, 128); ?>...</pre><br>
