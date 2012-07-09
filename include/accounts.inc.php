@@ -20,7 +20,7 @@
 						
 			for($i = 0; $i < 1000; $i++)
 			{
-				$init = sha1($init, true);
+				$init = mhash(MHASH_SHA1, $init);
 			}
 			
 			// This should be the binary hash(20 bytes)and not the string hash(40 bytes)

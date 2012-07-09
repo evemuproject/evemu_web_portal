@@ -8,7 +8,7 @@ us and our users more about C++ project development in a large
 scale.
 
 # Status
-- Nothing really important has been done yet.
+- Default website desing finished
 
 # Legal
     ------------------------------------------------------------------------------------

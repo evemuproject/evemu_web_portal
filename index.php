@@ -1,4 +1,10 @@
 <?php
+	if(isset($loaded) == true)
+	{
+		echo "We are loading ourselves a lot of times...";
+		return;
+	}
+	
 	// Check for config file
 	if(file_exists("config.php") == false)
 	{
@@ -31,6 +37,19 @@
 	{
 		echo Database::GetLastError();
 	}
+	
+	$loaded = true;
+	
+	$page = "content/main.php";
+	if( @(empty($_GET['p']) == false) )
+	{
+		$page = "content/" . userInput($_GET['p']) . ".php";
+	}
+	
+	if(file_exists($page) == falsE)
+	{
+		$page = "404.php";
+	}
 ?>
 
 <!DOCTYPE html>
@@ -55,17 +74,18 @@
 		   <li><a href='?p='><span>Home</span></a></li>
 		   <li><a href='#'><span>Portal Websites</span></a>
 			  <ul>
-				 <li><a href='#'><span>Account Management</span></a></li>
-				 <li><a href='#'><span>Forums</span></a></li>
-				 <li><a href='#'><span>Support</span></a></li>
+				 <li><a href='?p=account'><span>Account Management</span></a></li>
+				 <li><a href='?p=forum'><span>Forums</span></a></li>
+				 <li><a href='?p=support'><span>Support</span></a></li>
 			  </ul>
 		   </li>
-		   <li><a href='#'><span>Language</span></a>
+		   <li><a href='?p=admin'><span>Administration interface</span></a></li>
+		   <!--<li><a href='#'><span>Language</span></a>
 			  <ul>
-				 <li><a href='#'><span>Spanish</span></a></li>
-				 <li><a href='#'><span>English</span></a></li>
+				 <li><a href='?lang=es'><span>Spanish</span></a></li>
+				 <li><a href='?lang=en'><span>English</span></a></li>
 			  </ul>
-		   </li>
+		   </li>-->
 		   
 		   <?php
 			// TODO: Add a check to show the user name or the login form
@@ -78,21 +98,18 @@
 		</ul>
 		</div>
 		
-		<div id="gamebanner"></div>
+		<?php
+			if( @(($_GET['p'] != 'forum') && ($_GET['p'] != 'account') && ($_GET['p'] != 'support') && ($_GET['p'] != 'admin')) )
+			{
+			?>
+		<a href="?p=download"><div id="tryeve"><h4>DOWNLOAD EVEMU CRUCIBLE NOW<br><center>Client build supported: 360229</center></h4></div></a>
 		
+		<a href="?p=crucible"><div id="gamebanner"></div></a>
+		<?php
+			}
+		?>
 		<div id="content">
 		<?php
-			$page = "content/main.php";
-			if( @(empty($_GET['p']) == false) )
-			{
-				$page = "content/" . userInput($_GET['p']) . ".php";
-			}
-			
-			if(file_exists($page) == falsE)
-			{
-				$page = "404.php";
-			}
-			
 			include $page;
 		?>
 		</div>
