@@ -30,10 +30,10 @@
 				else
 				{
 					// Set default data
-					$DB_Server = "localhost";
-					$DB_User = "root";
-					$DB_Password = "root";
-					$DB_Database = "evemu";
+					$DB_Server = "";
+					$DB_User = "";
+					$DB_Password = "";
+					$DB_Database = "";
 					
 					// Get the data from the form
 					if( @(empty($_POST['server']) == false) )

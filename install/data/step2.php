@@ -22,10 +22,10 @@
 		$error = true;
 	}
 	
-	if( @(empty($_POST['pass']) == true) )
+	/*if( @(empty($_POST['pass']) == true) )
 	{
 		$error = true;
-	}
+	}*/
 	
 	if( @(empty($_POST['database']) == true) )
 	{
