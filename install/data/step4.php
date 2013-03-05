@@ -10,10 +10,10 @@
 			<p>
 <?php
 	// Set default data
-	$DB_Server = "localhost";
-	$DB_User = "root";
-	$DB_Password = "root";
-	$DB_Database = "evemu";
+	$DB_Server = "";
+	$DB_User = "";
+	$DB_Password = "";
+	$DB_Database = "";
 	$accountID = 0;
 	$GAME_Server = "localhost";
 	$GAME_Port = 26000;
