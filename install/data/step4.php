@@ -113,7 +113,7 @@
 		$query = "DROP TABLE IF EXISTS portalcache";
 		Database::Query($query, false);
 		
-		$query = "CREATE TABLE `evemu-crucible`.`portalcache` (
+		$query = "CREATE TABLE `portalcache` (
 					`cacheName` VARCHAR( 255 ) NOT NULL ,
 					`cacheValue` TEXT NOT NULL ,
 					`cacheTime` BIGINT NOT NULL ,
@@ -125,7 +125,7 @@
 		$query = "DROP TABLE IF EXISTS portalconfig";
 		Database::Query($query, false);
 		
-		$query = "CREATE TABLE `evemu-crucible`.`portalconfig` (
+		$query = "CREATE TABLE `portalconfig` (
 					`configName` VARCHAR( 255 ) NOT NULL ,
 					`configValue` VARCHAR( 255 ) NOT NULL ,
 					PRIMARY KEY ( `configName` )
@@ -135,7 +135,7 @@
 		$query = "DROP TABLE IF EXISTS portalSupportMessages";
 		Database::Query($query, false);
 		
-		$query = "CREATE TABLE `evemu-crucible`.`portalSupportMessages` (
+		$query = "CREATE TABLE `portalSupportMessages` (
 					`messageID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 					`accountID` INT NOT NULL DEFAULT '0',
 					`title` VARCHAR( 255 ) NOT NULL DEFAULT '',
